@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Arrays;
+
 public class Cinema {
     private int [][][] cinema;
     public Cinema(int hallNumber, int rowNumber, int seatsNumber){
@@ -11,5 +13,19 @@ public class Cinema {
                 }
             }
         }
+    }
+
+    public boolean bookSeats(int hallNumber, int row, int[] seats){
+        for(int seat : seats){
+            if(cinema[hallNumber][row][seat] == 1){
+                System.out.println("Місце" + seat + "у ряді" + row + " вже заброньоване");
+                return false;
+            }
+        }
+        for(int seat : seats){
+            cinema[hallNumber][row][seat] = 1;
+        }
+        System.out.println("Місця " + Arrays.toString(seats) + " заброньовані!");
+        return true;
     }
 }
