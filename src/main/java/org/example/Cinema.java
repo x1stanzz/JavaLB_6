@@ -18,14 +18,28 @@ public class Cinema {
     public boolean bookSeats(int hallNumber, int row, int[] seats){
         for(int seat : seats){
             if(cinema[hallNumber][row][seat] == 1){
-                System.out.println("Місце" + seat + "у ряді" + row + " вже заброньоване");
+                System.out.println("Місце" + seat + "у ряді" + row + " вже заброньоване!");
                 return false;
             }
         }
         for(int seat : seats){
             cinema[hallNumber][row][seat] = 1;
         }
-        System.out.println("Місця " + Arrays.toString(seats) + " заброньовані!");
+        System.out.println("Місця " + Arrays.toString(seats) + " у ряді" + row +" заброньовані!");
+        return true;
+    }
+
+    public boolean cancelBooking(int hallNumber, int row, int[] seats){
+        for(int seat : seats){
+            if(cinema[hallNumber][row][seat] == 0){
+                System.out.println("Місце" + seat + "у ряді" + row + " ще не заброньоване!");
+                return false;
+            }
+        }
+        for(int seat : seats){
+            cinema[hallNumber][row][seat] = 0;
+        }
+        System.out.println("Місця" + Arrays.toString(seats) + "у ряді" + row + " були скасовані!");
         return true;
     }
 }
