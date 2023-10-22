@@ -18,49 +18,77 @@ public class Cinema {
     }
 
     public boolean bookSeats(int hallNumber, int row, int[] seats){
-        if(row < 0 || hallNumber < 0 || row < cinema[hallNumber].length || hallNumber > 5){
+        int adjustedHallNumber = hallNumber - 1;
+        int adjustedRow = row - 1;
+        int [] adjustedSeats = new int[seats.length];
+        for (int i = 0; i < seats.length; i++) {
+            adjustedSeats[i] = seats[i] - 1;
+            if (cinema[adjustedHallNumber][adjustedRow][adjustedSeats[i]] == 1) {
+                System.out.println("Місце " + seats[i] + " в ряду " + row + " в залі " + hallNumber + " вже заброньоване.");
+                return false;
+            }
+        }
+
+        if(adjustedRow < 1 || adjustedHallNumber < 1 || adjustedRow < cinema[hallNumber].length || adjustedHallNumber > 5){
             throw new IllegalArgumentException("Некоректний номер місця або залу");
         }
-        for(int seat : seats){
-            if(seat < 0 || seat < cinema[hallNumber][row].length){
+
+        for(int seat : adjustedSeats){
+            if(seat < 0 || seat < cinema[adjustedHallNumber][adjustedRow].length){
                 throw new IllegalArgumentException("Некоректний номер місця");
             }
-            if(cinema[hallNumber][row][seat] == 1){
+            if(cinema[adjustedHallNumber][adjustedRow][seat] == 1){
                 System.out.println("Місце" + seat + "у ряду " + row + " вже заброньоване!");
                 return false;
             }
         }
-        for(int seat : seats){
-            cinema[hallNumber][row][seat] = 1;
+        for(int seat : adjustedSeats){
+            cinema[adjustedHallNumber][adjustedRow][seat] = 1;
         }
         System.out.println("Місця " + Arrays.toString(seats) + " у ряду " + row + " заброньовані!");
         return true;
     }
 
     public boolean cancelBooking(int hallNumber, int row, int[] seats){
-        if(row < 0 || hallNumber < 0 || row < cinema[hallNumber].length || hallNumber > 5){
+        int adjustedHallNumber = hallNumber - 1;
+        int adjustedRow = row - 1;
+        int [] adjustedSeats = new int[seats.length];
+        for (int i = 0; i < seats.length; i++) {
+            adjustedSeats[i] = seats[i] - 1;
+            if (cinema[adjustedHallNumber][adjustedRow][adjustedSeats[i]] == 1) {
+                System.out.println("Місце " + seats[i] + " в ряду " + row + " в залі " + hallNumber + " вже заброньоване.");
+                return false;
+            }
+        }
+
+        if(adjustedRow < 1 || adjustedHallNumber < 1 || adjustedRow < cinema[hallNumber].length || adjustedHallNumber > 5){
             throw new IllegalArgumentException("Некоректний номер місця або залу");
         }
-        for(int seat : seats){
-            if(cinema[hallNumber][row][seat] == 0){
+
+        for(int seat : adjustedSeats){
+            if(cinema[adjustedHallNumber][adjustedRow][seat] == 0){
                 System.out.println("Місце" + seat + "у ряду " + row + " ще не заброньоване!");
                 return false;
             }
         }
-        for(int seat : seats){
-            cinema[hallNumber][row][seat] = 0;
+        for(int seat : adjustedSeats){
+            cinema[adjustedHallNumber][adjustedRow][seat] = 0;
         }
         System.out.println("Місця" + Arrays.toString(seats) + "у ряду " + row + " були скасовані!");
         return true;
     }
 
     public boolean checkAvailability(int screen, int numSeats){
-        if(screen < 0 || screen > 5 || numSeats < 0){
+        int adjustedScreen = screen - 1;
+        if(adjustedScreen < 1 || adjustedScreen > 5){
             throw new IllegalArgumentException("Некоректний номер залу!");
         }
-        for(int row = 0; row < cinema[screen].length; row++){
+        if(numSeats < 0){
+            throw new NegativeValueException("Кількість місць не може бути негативним числом!");
+        }
+        for(int row = 0; row < cinema[adjustedScreen].length; row++){
             int countSeats = 0;
-            for(int seat = 0; seat < cinema[screen][numSeats].length; seat++){
+            for(int seat = 0; seat < cinema[adjustedScreen][numSeats].length; seat++){
                 if(cinema[screen][row][seat] == 0){
                     countSeats++;
                     if(countSeats == numSeats){
@@ -77,7 +105,7 @@ public class Cinema {
     }
 
     public void printSeatingArrangement(int hallNumber){
-        if(hallNumber < 0 || hallNumber > 5){
+        if(hallNumber < 1 || hallNumber > 5){
             throw new IllegalArgumentException("Некоректний номер залу");
         }
         System.out.println("Схема розміщення місць" + hallNumber + "залу");
